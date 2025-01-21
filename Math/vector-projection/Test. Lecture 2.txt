@@ -1,0 +1,7 @@
+function X = receiver(P, D)
+% X = receiver([pi, qi]) returns the position of the receiver
+% as X = [x,y] given the positions of the transmitters [pi, qi] and
+# distances [di] of the receiver from those transmitters
+
+# form the matrix A for the corresponding linear system
+A = 2 * (
