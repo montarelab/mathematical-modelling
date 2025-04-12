@@ -1,3 +1,8 @@
+import numpy as np
+import scipy.sparse as sp
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
+
 def build_word_sentence_matrix(document):
     """
     Builds a word-sentence frequency matrix from a document.
@@ -8,9 +13,9 @@ def build_word_sentence_matrix(document):
     sentences = [sentence.strip() for sentence in document.split('.') if sentence.strip()]
     # Initialize the count vectorizer with stop words filtering
     vectorizer = CountVectorizer(stop_words='english')
-        X = vectorizer.fit_transform(sentences)
+    X = vectorizer.fit_transform(sentences)
         
-        # Convert the matrix to an array and get the feature names (words)
+    # Convert the matrix to an array and get the feature names (words)
     matrix = X.toarray()
     words = vectorizer.get_feature_names_out()
     return matrix, words, sentences
@@ -27,7 +32,7 @@ def truncated_svd(matrix, energy_threshold=0.9):
     running_energy = 0.0
     k = 0
         
-    	# Retain the top singular values based on the energy threshold
+    # Retain the top singular values based on the energy threshold
     while running_energy / total_energy < energy_threshold and k < len(S):
         running_energy += S[k]
         k += 1
@@ -48,11 +53,11 @@ def calculate_local_measure(matrix):
     return np.log(matrix + 1)
 
 def calculate_global_measure(matrix):
-     """
+    """
     Calculates the global measure for the word-sentence matrix using entropy.
          Args: matrix (numpy.ndarray): The word-sentence frequency matrix.
     Returns: numpy.ndarray: The global measure for each word.
-     """
+    """
      # Calculate total word frequency for each sentence
      total_word_freq = np.sum(matrix, axis=1)
      n = matrix.shape[1]
@@ -73,8 +78,8 @@ def build_complex_matrix(matrix, local_measure, global_measure):
     """
     Builds a complex matrix by combining local and global measures.
     Args: matrix (numpy.ndarray): The word-sentence frequency matrix,
-   local_measure (numpy.ndarray): The local measure matrix,
-   global_measure (numpy.ndarray): The global measure for each word.
+    local_measure (numpy.ndarray): The local measure matrix,
+    global_measure (numpy.ndarray): The global measure for each word.
     Returns: numpy.ndarray: The complex matrix.
     """
     complex_matrix = np.zeros_like(matrix, dtype=float)
