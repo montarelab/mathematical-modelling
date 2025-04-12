@@ -6,7 +6,7 @@ from sklearn.decomposition import TruncatedSVD
 def build_word_sentence_matrix(document):
     """
     Builds a word-sentence frequency matrix from a document.
-    Args: document (str): The document to process.
+    Args: document (str): The document to process.  
     Returns: tuple: A tuple containing the word-sentence matrix, words, and sentences.
     """
     # Split document into sentences and strip whitespace
